@@ -1,0 +1,222 @@
+﻿@model PersonResponse
+@{
+    ViewBag.Title = "Delete Person";
+}
+<div class="flex">
+    <div class="flex-1">
+        <div class="text-grey">
+            <span>Contacts</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span class="text-grey">Delete</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <form action="~/Persons/Delete" method="post">
+        <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons list</a>
+        <h2 class="text-large">Delete Person</h2>
+
+        <h4>Are you sure to delete this person..?</h4>
+        <input type="hidden" asp-for="PersonId" />
+
+        @*person name*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="PersonName" class="form-label pt">
+                    Person Name
+                </label>
+
+            </div>
+            <div class="flex-1">
+                @* <input type="text" asp-for="PersonName" id="PersonName" name="PersonName" class="form-input" /> *@
+
+                <input asp-for="PersonName" class="form-input" disabled />
+                <span asp-validation-for="PersonName" class="text-red"></span>
+            </div>
+        </div>
+
+        @*Email*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Email" class="form-label pt">
+                    EMail
+                </label>
+
+            </div>
+            <div class="flex-1">
+                @* <input type="email" asp-for="Email" id="Email" name="Email" class="form-input" /> *@
+
+                @* <input type="email" asp-for="Email"  class="form-input" />  we can mention type expilicty here or we can also infor asp to get input type from model class as datatype. *@
+                <input asp-for="Email" class="form-input" disabled />
+                <span asp-validation-for="Email" class="text-red"></span>
+
+
+            </div>
+        </div>
+
+        @*DOB*@
+        @*         <div class="form-field flex">
+        <div class="w-25">
+        <label asp-for="DateOfBirth" class="form-label pt">
+        Date Of Birth
+        </label>
+
+        </div>
+        <div class="flex-1">
+        <input  asp-for="DateOfBirth"  class="form-input" />
+        <span asp-validation-for="DateOfBirth" class="text-red"></span>
+
+        </div>
+        </div> *@
+        @*DateOfBirth*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="DateOfBirth" class="form-label pt">Date of Birth</label>
+            </div>
+            <div class="flex-1">
+                <input asp-for="DateOfBirth" class="form-input"  disabled />
+                <span asp-validation-for="DateOfBirth" class="text-red"></span>
+            </div>
+        </div>
+
+
+
+
+        @*Gender*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label class="form-label pt">
+                    Gender
+                </label>
+
+            </div>
+            <div class="flex-1">
+                @{
+                    string[] genders = (string[])Enum.GetNames(typeof(GenderOptions));
+                }
+                @foreach (string gender in genders)
+                {
+
+                    <input type="radio" asp-for="Gender" value="@gender" class="ml" disabled />
+                    <label for="@gender">@gender</label>
+                }
+                <span asp-validation-for="Gender" class="text-red"></span>
+
+                @*            <input type="radio" id="Female" name="Gender" value="Female" class="ml" />
+                <label for="Female">Female</label>
+                <input type="radio" id="Others" name="Gender" value="Others" class="ml"/>
+                <label for="Others">Others</label> *@
+            </div>
+        </div>
+
+
+        @*Country*@
+        @*    <div class="form-field flex">
+        <div class="w-25">
+        <label asp-for="CountryId" class="form-label">
+        Country
+        </label>
+
+        </div>
+        <div class="flex-1">
+        <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.Countries">
+        <option value="">Please select </option>
+
+        </select>
+        <span asp-validation-for="CountryId" class="text-red"></span>
+
+
+        </div>
+        </div>
+        *@
+
+
+        @*Country*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label class="form-label" asp-for="CountryId">Country</label>
+            </div>
+            <div class="flex-1">
+                <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.Countries" disabled>
+                    <option value="" disabled>Please Select</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-red"></span>
+            </div>
+        </div>
+
+        @*Address*@
+        <div class="form-field flex">
+            <div class="w-25">
+                <label asp-for="Address" class="form-label pt">
+                    Address
+                </label>
+
+            </div>
+            <div class="flex-1">
+                <textarea asp-for="Address" class="form-input" disabled></textarea>
+                <span asp-validation-for="Address" class="text-red"></span>
+
+
+            </div>
+        </div>
+
+
+        @*Address*@
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <input asp-for="ReceiveLetters" value="true" disabled>
+
+                <label asp-for="ReceiveLetters" class="form-label pt">
+                    Receive New Letters
+                </label>
+                <span asp-validation-for="ReceiveLetters" class="text-red"></span>
+            </div>
+        </div>
+        @*Submit*@
+        <div class="form-field flex">
+            <div class="w-25">
+            </div>
+            <div class="flex-1">
+                <button class="button button-red-back">Delete</button>
+@*                 <div asp-validation-summary="All" class="text-red">
+                </div> *@
+                @if (ViewBag.Errors != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+
+
+                            @foreach (string error in ViewBag.Errors)
+                            {
+
+                                <li class="ml">@error</li>
+
+
+                            }
+                        </ul>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@* @section scripts
+{ *@
+    @* we have added asp-fallback-test="window.jQuery" asp-fallback-src="~/jQuery.min.js" this two codes for backup validation if side not respoonded for script src and we can check it in inspect and under srcipt 2nd script *@
+
+@*     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery" asp-fallback-src="~/jQuery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous"
+            referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jQuery.Validate.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/jQuery.Validate.unobtrusive.min.js"></script>
+}
+ *@
