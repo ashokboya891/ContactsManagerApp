@@ -10,10 +10,12 @@ namespace ContactsManager.UI.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
-
+            _signInManager = signInManager;
         }
         [HttpGet]
         public IActionResult Register()
@@ -42,6 +44,9 @@ namespace ContactsManager.UI.Controllers
             IdentityResult result=await _userManager.CreateAsync(user,registerDTO.Password);
             if (result.Succeeded)
             {
+                //sign in 
+                await _signInManager.SignInAsync(user,isPersistent: false);   //creates cookie with encrypted user details for authenticator to read in program.cs file  stores application cookie in dev tool browser to keep login if is true if not it will be closed if we close chorme 
+                
                 return RedirectToAction(nameof(PersonsController.Index), "Persons");
             }
             else

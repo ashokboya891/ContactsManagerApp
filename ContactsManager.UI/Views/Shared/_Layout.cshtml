@@ -24,16 +24,33 @@
 
                     <div class="flex-1" id="search-box-div">
                         <div class="navbar account-links">
+                            <ul>
+                                @if (@User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <i class="fa-solid fa-user"></i> @User.Identity?.Name   @*?--> means if name in identityt is not null then only access it *@
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Register">Register</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="login">Login</a>
+                                    </li>
+                                }
+                            </ul>
+              
                             @*      <div class="navbar-brand">
                             <img src="~/Logo.png" width="45px" alt="Logo here" asp-append-version="true"/>
                             </div> *@
                             <ul>
-                                <li>
-                                    <a asp-controller="Account" asp-action="Register">Register</a>
-                                </li>
-                                <li>
-                                    <a asp-controller="Account" asp-action="login">Login</a>
-                                </li>
+                               
+                              
                             </ul>
                         </div>
                     </div>
