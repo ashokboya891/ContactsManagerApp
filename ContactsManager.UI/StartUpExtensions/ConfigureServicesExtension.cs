@@ -1,5 +1,8 @@
-﻿using CRUDE.Filters.ActionFilters;
+﻿using ContactsManager.Core.Domain.IdentityEntities;
+using CRUDE.Filters.ActionFilters;
 using Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContracts;
@@ -37,6 +40,12 @@ namespace CRUDE.StartUpExtensions
             services.AddDbContext<ApplicationDbContext>(opt => {
                 opt.UseSqlServer(configuration.GetConnectionString("con"));
             });
+
+            //enable identity in this project
+            services.AddIdentity<ApplicationUser,ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddUserStore<UserStore<ApplicationUser,ApplicationRole,ApplicationDbContext,Guid>>()  //stores acts like repos to fetch data from db of identity api
+                .AddRoleStore<RoleStore<ApplicationRole,ApplicationDbContext,Guid>>();
 
             services.AddScoped<IPersonRespository, PersonRepository>();
             services.AddScoped<ICountrysRepository, CountriesRepository>();
