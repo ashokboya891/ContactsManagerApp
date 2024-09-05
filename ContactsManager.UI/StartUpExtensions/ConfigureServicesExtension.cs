@@ -42,7 +42,16 @@ namespace CRUDE.StartUpExtensions
             });
 
             //enable identity in this project
-            services.AddIdentity<ApplicationUser,ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredUniqueChars = 3;  //AB12AB (unique 1,2,A,B)
+                
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<ApplicationUser,ApplicationRole,ApplicationDbContext,Guid>>()  //stores acts like repos to fetch data from db of identity api
                 .AddRoleStore<RoleStore<ApplicationRole,ApplicationDbContext,Guid>>();

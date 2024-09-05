@@ -3,7 +3,7 @@ using ServiceContracts;
 
 namespace CRUDE.Controllers
 {
-    [Route("Controller")]
+    [Route("Upload")]
     public class UploadController : Controller
     {
         private readonly ICountryService countryService;

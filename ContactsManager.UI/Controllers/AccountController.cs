@@ -17,6 +17,38 @@ namespace ContactsManager.UI.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync(); //it will remove identity cookie from developer tool in browser so as long as cookie preset in chrome it will consider as loged in account
+            return RedirectToAction(nameof(PersonsController.Index), "Persons");
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            //checking validation error
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Errors = ModelState.Values.SelectMany(t => t.Errors).Select(t => t.ErrorMessage);
+                return View(loginDTO);
+            }
+            var result=  await _signInManager.PasswordSignInAsync(loginDTO.Email,loginDTO.Password,isPersistent:false,lockoutOnFailure:false);//if provided credentials are matched in db it will creates identity token for that user   //if user entered 3 times failed credentials  for a while it wont allow to login that user from browser
+               
+            if(result.Succeeded)
+            {
+                return RedirectToAction(nameof(PersonsController.Index), "Persons");
+            }
+            ModelState.AddModelError("Login", "Invalid email or Password");
+            return View(loginDTO);
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
