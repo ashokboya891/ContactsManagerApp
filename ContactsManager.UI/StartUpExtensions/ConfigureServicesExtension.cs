@@ -1,6 +1,7 @@
 ﻿using ContactsManager.Core.Domain.IdentityEntities;
 using CRUDE.Filters.ActionFilters;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,16 @@ namespace CRUDE.StartUpExtensions
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<ApplicationUser,ApplicationRole,ApplicationDbContext,Guid>>()  //stores acts like repos to fetch data from db of identity api
                 .AddRoleStore<RoleStore<ApplicationRole,ApplicationDbContext,Guid>>();
+            
+            //in order to access any action method except account controler ones you have to logged in
+            services.AddAuthorization(opt =>
+            {
+                opt.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+            });
 
             services.AddScoped<IPersonRespository, PersonRepository>();
             services.AddScoped<ICountrysRepository, CountriesRepository>();

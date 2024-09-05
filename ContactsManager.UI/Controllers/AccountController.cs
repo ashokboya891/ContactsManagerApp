@@ -1,12 +1,14 @@
 ﻿using ContactsManager.Core.Domain.IdentityEntities;
 using ContactsManager.Core.DTO;
 using CRUDE.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactsManager.UI.Controllers
 {
     [Route("[Controller]/[action]")]
+    [AllowAnonymous]  //it states that without authentication or logged in we can use all method which are present in it
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDE.Controllers
 {
+    [AllowAnonymous]  //it states that without authentication or logged in we can use all method which are present in it
+
     public class HomeController : Controller
     {
         [Route("Error")]

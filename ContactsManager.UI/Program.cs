@@ -60,8 +60,9 @@ Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePa
 }
 
 app.UseStaticFiles();
-app.UseAuthentication();   //reading  identity cokie
 app.UseRouting();       //identifing action method base route
+app.UseAuthentication();   //reading  identity cokie 
+app.UseAuthorization();     //validates access permissions of the user
 app.MapControllers();    //executing filter pipeline action+filters
 app.Run();
 
