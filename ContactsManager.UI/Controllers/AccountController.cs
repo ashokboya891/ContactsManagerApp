@@ -97,5 +97,18 @@ namespace ContactsManager.UI.Controllers
             return View(registerDTO);
             }
         }
+        public async Task<IActionResult> IsEmailAlreadyRegistered(string email)
+        {
+          ApplicationUser user=  await _userManager.FindByEmailAsync(email);
+            if(user==null)
+            {
+                return Json(true);  //valid mail to register this email
+            }
+            else
+            {
+                return Json(false);  //already present email in db
+            }
+
+        }
     }
 }
