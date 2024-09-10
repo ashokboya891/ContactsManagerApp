@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ContactsManager.UI.Controllers
 {
     [Route("[Controller]/[action]")]
+    //[Route("abc/def")]
+
     [AllowAnonymous]  //it states that without authentication or logged in we can use all method which are present in it
     public class AccountController : Controller
     {
