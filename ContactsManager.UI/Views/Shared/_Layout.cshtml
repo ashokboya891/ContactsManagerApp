@@ -30,9 +30,18 @@
                                     <li>
                                         <i class="fa-solid fa-user"></i> @User.Identity?.Name   @*?--> means if name in identityt is not null then only access it *@
                                     </li>
+                                    @if(User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a asp-controller="Home" asp-action="Index" asp-area="Admin">Admin Home</a>
+                                        </li>
+                                    }
+                                
+
                                     <li>
                                         <a asp-controller="Account" asp-action="Logout">Logout</a>
                                     </li>
+                               
                                 }
                                 else
                                 {

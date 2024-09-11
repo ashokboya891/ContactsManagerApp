@@ -66,11 +66,19 @@ app.UseAuthorization();     //validates access permissions of the user
 app.MapControllers();    //executing filter pipeline action+filters
 app.UseEndpoints(end =>
 {
-end.MapControllerRoute( //here we have appliced convetional routing for all controller and action globally but attribute routing will take more precidence than conventional
-        name: "default",
-        pattern:"{controller}/{action}"
-        );
+    end.MapControllerRoute( 
+    name:"areas",
+    pattern:"{area:exists}/{controller=Home}/{action=Index}"
+    );
+    //Admin/Home/Index
+    //Admin
+    end.MapControllerRoute( //here we have appliced convetional routing for all controller and action globally but attribute routing will take more precidence than conventional
+            name: "default",
+            pattern: "{controller}/{action}"
+    );
+    //persons/edit
 });
+
 app.Run();
 
 public partial class Program { } //make the auto-generated Program accessible programmatically
