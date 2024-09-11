@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ContactsManager.UI.Controllers
 {
     [Route("[Controller]/[action]")]
-    [AllowAnonymous]  //it states that without authentication or logged in we can use all method which are present in it
+   // [AllowAnonymous]  //it states that without authentication or logged in we can use all method which are present in it
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -31,12 +31,16 @@ namespace ContactsManager.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize("NotAuthorized")]
+
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize("NotAuthorized")]
+
         public async Task<IActionResult> Login(LoginDTO loginDTO,string? ReturnUrl)
         {
             //checking validation error
@@ -69,12 +73,15 @@ namespace ContactsManager.UI.Controllers
         }
 
         [HttpGet]
+        [Authorize("NotAuthorized")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize("NotAuthorized")]
+
         public async Task< IActionResult> Register(RegisterDTO registerDTO)
         {
             //checking validation error
