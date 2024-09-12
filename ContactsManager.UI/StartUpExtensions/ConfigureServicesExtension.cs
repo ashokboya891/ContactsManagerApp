@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContracts;
@@ -35,6 +36,7 @@ namespace CRUDE.StartUpExtensions
                     Value = "myvalue-from-global",
                     Order = 3
                 });
+                opt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());  //only for post action methods it will work conventionals or global anitforgery token added here we can do this in attribute as well   [ValidateAntiForgeryToken] 
             });
 
 

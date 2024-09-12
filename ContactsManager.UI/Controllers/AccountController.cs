@@ -83,6 +83,7 @@ namespace ContactsManager.UI.Controllers
 
         [HttpPost]
         [Authorize("NotAuthorized")]
+       // [ValidateAntiForgeryToken]
 
         public async Task< IActionResult> Register(RegisterDTO registerDTO)
         {
@@ -148,6 +149,7 @@ namespace ContactsManager.UI.Controllers
             return View(registerDTO);
             }
         }
+        [AllowAnonymous]
         public async Task<IActionResult> IsEmailAlreadyRegistered(string email)
         {
           ApplicationUser user=  await _userManager.FindByEmailAsync(email);
