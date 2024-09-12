@@ -41,8 +41,10 @@ else
    app.UseExceptionHandler("/Error");
     app.UseMiddleware<ExceptionHandlingMiddleware>();
 }
-
+app.UseHsts();  //http strick transfer security
+app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
+
 app.UseHttpLogging();
 
 //app.Logger.LogDebug("debug-message");

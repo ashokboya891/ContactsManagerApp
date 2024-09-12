@@ -2,9 +2,11 @@
 using ContactsManager.Core.DTO;
 using ContactsManager.Core.Enums;
 using CRUDE.Controllers;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace ContactsManager.UI.Controllers
 {
@@ -57,7 +59,7 @@ namespace ContactsManager.UI.Controllers
                 ApplicationUser user=await _userManager.FindByEmailAsync(loginDTO.Email);
                 if (user != null)
                 {
-                    if(await _userManager.IsInRoleAsync(user,UserTypeOptions.Admin.ToString()))
+                    if(await _userManager.IsInRoleAsync(user,UserTypeOptions.Admin.ToString())) //SELECT CASE WHEN EXISTS( SELECT 1 FROM AspNetUserRoles ur JOIN AspNetRoles r ON ur.RoleId = r.Id WHERE ur.UserId = @UserId  AND r.Name = @RoleName
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
