@@ -167,8 +167,19 @@ namespace CRUDE.Controllers
             PersonUpdateRequest personupdate = personResponse.ToPersonUpdateRequest();
             List<CountryResponse> countries = await _countryService.GetAllCountryList();
             ViewBag.Countries = countries.Select(temp =>
-            new SelectListItem() { Text = temp.CountryName, Value = temp.CountryId.ToString() ,Selected=true});
-         
+            new SelectListItem()
+            {
+                Text = temp.CountryName,        // The name of the country
+                Value = temp.CountryId.ToString(), // The ID of the country
+                Selected = temp.CountryId == personupdate.CountryId // Mark as selected if IDs match
+            }).ToList();
+
+            //new SelectListItem() { 
+            //    Text = temp.CountryName, 
+            //    Value = temp.CountryId.ToString() ,
+            //    Selected=true}
+            //);
+
             return View(personupdate);
         }
         [HttpPost]

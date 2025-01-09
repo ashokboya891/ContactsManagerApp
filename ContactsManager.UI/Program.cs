@@ -74,7 +74,7 @@ app.UseEndpoints(end =>
     );
     //Admin/Home/Index
     //Admin
-    end.MapControllerRoute( //here we have appliced convetional routing for all controller and action globally but attribute routing will take more precidence than conventional
+   end.MapControllerRoute( //here we have appliced convetional routing for all controller and action globally but attribute routing will take more precidence than conventional
             name: "default",
             pattern: "{controller}/{action}"
     );

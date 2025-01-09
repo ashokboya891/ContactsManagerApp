@@ -63,14 +63,14 @@ namespace CRUDE.StartUpExtensions
             services.AddAuthorization(opt =>
             {
                 opt.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();   //create identity token and stores in chrome dev tools
-               //httpget register method we have applied this policy to go throug
-               //if user already logged in register should not be accesable if not it should
+                 //httpget register method we have applied this policy to go throug
+                  //if user already logged in register should not be accesable if not it should                                                                                             
                 opt.AddPolicy("NotAuthorized", policy =>
                 {
                     policy.RequireAssertion(context =>
                     {
 
-                        return ! context.User.Identity.IsAuthenticated;
+                        return !context.User.Identity.IsAuthenticated;
                     });
                 });
             });

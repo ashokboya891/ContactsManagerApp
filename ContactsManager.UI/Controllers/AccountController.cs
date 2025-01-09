@@ -33,7 +33,7 @@ namespace ContactsManager.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize("NotAuthorized")]
+       [Authorize("NotAuthorized")]
 
         public IActionResult Login()
         {
@@ -41,7 +41,7 @@ namespace ContactsManager.UI.Controllers
         }
 
         [HttpPost]
-        [Authorize("NotAuthorized")]
+       [Authorize("NotAuthorized")]
 
         public async Task<IActionResult> Login(LoginDTO loginDTO,string? ReturnUrl)
         {
@@ -75,14 +75,14 @@ namespace ContactsManager.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize("NotAuthorized")]
+      [Authorize("NotAuthorized")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize("NotAuthorized")]
+      [Authorize("NotAuthorized")]
        // [ValidateAntiForgeryToken]
 
         public async Task< IActionResult> Register(RegisterDTO registerDTO)
