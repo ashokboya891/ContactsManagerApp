@@ -3,6 +3,7 @@ using ServiceContracts;
 
 namespace CRUDE.Controllers
 {
+//to upload Countries data from excel(xlsx) to db follow create excel file with sheet name Countries(as reading from that sheet) and column name CoutryName with values under it
     [Route("Upload")]
     public class UploadController : Controller
     {
