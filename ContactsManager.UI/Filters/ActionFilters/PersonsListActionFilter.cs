@@ -42,14 +42,23 @@ namespace CRUDE.Filters.ActionFilters
                 }
                 if (paramters.ContainsKey("sortOrder"))
                 {
-
-                    personsController.ViewData["CurentSortOrder"] = Convert.ToString(paramters["sortOrder"]) ;
+                    personsController.ViewData["CurentSortOrder"] = Convert.ToString(paramters["sortOrder"]);
                 }
                 else
                 {
-                    personsController.ViewData["CurrentSortBy"] = nameof(SortOrderOptions.ASC);
-
+                    personsController.ViewData["CurentSortOrder"] = nameof(SortOrderOptions.ASC); // Fix key here
                 }
+
+                //if (paramters.ContainsKey("sortOrder"))
+                //{
+
+                //    personsController.ViewData["CurentSortOrder"] = Convert.ToString(paramters["sortOrder"]) ;
+                //}
+                //else
+                //{
+                //    personsController.ViewData["CurrentSortBy"] = nameof(SortOrderOptions.ASC);
+
+                //}
 
                 personsController.ViewBag.SearchFields = new Dictionary<string, string>()
                 {

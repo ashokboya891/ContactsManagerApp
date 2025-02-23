@@ -2,10 +2,12 @@
 using ContactsManager.Core.DTO;
 using ContactsManager.Core.Enums;
 using CRUDE.Controllers;
+using Entities;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 
 namespace ContactsManager.UI.Controllers
@@ -17,13 +19,15 @@ namespace ContactsManager.UI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext _con)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _dbContext = _con;
         }
 
         public async Task<IActionResult> Logout()
@@ -149,6 +153,24 @@ namespace ContactsManager.UI.Controllers
             return View(registerDTO);
             }
         }
+        [HttpGet]
+        public IActionResult GetChatHistory(string sender, string receiver)
+        {
+            var messages = _dbContext.ChatMessages
+                .Where(m => (m.Sender == sender && m.Receiver == receiver) || (m.Sender == receiver && m.Receiver == sender))
+                .OrderBy(m => m.Timestamp)
+                .Select(m => new
+                {
+                    m.Sender,
+                    m.Message,
+                    m.Timestamp
+                })
+                .ToList();
+
+            return Json(messages);
+        }
+
+
         [AllowAnonymous]
         public async Task<IActionResult> IsEmailAlreadyRegistered(string email)
         {

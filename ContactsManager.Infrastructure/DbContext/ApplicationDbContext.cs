@@ -1,4 +1,5 @@
-﻿using ContactsManager.Core.Domain.IdentityEntities;
+﻿using ContactsManager.Core.Domain.Entities;
+using ContactsManager.Core.Domain.IdentityEntities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,9 @@ namespace Entities
         public virtual DbSet<Country> Countries { get; set; }
 
         public virtual DbSet<Person> Persons { get; set;}
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

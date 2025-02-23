@@ -38,6 +38,7 @@ namespace Services
             {
                 return allpersons;
             }
+            _logger.LogInformation($"getsortedpersons method in  --{sortBy}--{sortorder}");
             List<PersonResponse> sortedpersons = (sortBy, sortorder)
             switch
             {

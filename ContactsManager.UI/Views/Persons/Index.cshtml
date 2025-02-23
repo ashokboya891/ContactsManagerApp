@@ -6,6 +6,65 @@
 
 }
 @* <form  asp-controller="persons" asp-action="index" action="~/persons/index" method="get" > *@
+@{
+    var currentDate = DateTime.Now;
+    var greeting = currentDate.Hour < 12 ? "Good Morning" : "Good Evening";
+}
+<h1>@greeting</h1>
+<p>The current date and time is: @currentDate</p>
+
+@{
+    string userName = "John Doe";
+    int year = DateTime.Now.Year;
+    Random random = new Random(); // Properly initialize the Random instance
+}
+
+<h2>Welcome, @userName!</h2>
+<p>Current Year: @year</p>
+<p>Random Number: @random.Next(1, 100)</p>
+
+
+@{
+    string rawText = "<b>This is bold text</b>";
+}
+<p>HTML Encoded: @rawText</p>
+<p>Raw Output: @Html.Raw(rawText)</p>
+
+
+@{
+    int dayOfWeek = (int)DateTime.Now.DayOfWeek;
+}
+@switch (dayOfWeek)
+{
+    case 0:
+        <p>It's Sunday.</p>
+        break;
+    case 1:
+        <p>It's Monday.</p>
+        break;
+    case 2:
+        <p>It's Tuesday.</p>
+        break;
+    case 3:
+        <p>It's wednesday.</p>
+        break;
+    case 4:
+        <p>It's Thusday.</p>
+        break;
+    case 5:
+        <p>It's Friday.</p>
+        break;
+    case 6:
+        <p>It's Saturday.</p>
+        break;
+    default:
+        <p>It's a weekday.</p>
+        break;
+}
+
+@* This is a server-side comment. It will not appear in the HTML source. *@
+<h2>This is visible to the user.</h2>
+
 
 <form  asp-controller="persons" asp-action="index" method="get" >
     <div class="flex">
@@ -67,7 +126,7 @@
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)
                 {
                 {"ColumnName",nameof(PersonResponse.PersonName)},
-                {"DisplayName","Person Name"},
+                {"DisplayName","Person Name-1"},
 
                 })
                 @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData)

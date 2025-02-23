@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.SignalR
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<h2>Chat</h2>
+<div>
+    <h3>Online Users</h3>
+    <ul id="userList"></ul>
+</div>
+
+<div>
+    <h3>Chat Box</h3>
+    <input type="hidden" id="receiverConnectionId" />
+    <textarea id="messageInput" placeholder="Type your message"></textarea>
+    <button id="sendButton">Send</button>
+</div>
+
+<ul id="messagesList"></ul>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.7/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+        // Receive message
+        connection.on("ReceiveMessage", function (senderName, message) {
+            const msg = `<b>${senderName}:</b> ${message}`;
+            const li = document.createElement("li");
+            li.innerHTML = msg;
+            document.getElementById("messagesList").appendChild(li);
+        });
+
+        // Update online user list
+        connection.on("UpdateUserList", function (users) {
+            const userList = document.getElementById("userList");
+            userList.innerHTML = "";
+
+            users.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = user.name;
+                li.dataset.connectionId = user.connectionId;
+                li.addEventListener("click", () => {
+                    document.getElementById("receiverConnectionId").value = user.connectionId;
+                    console.log(`Chatting with: ${user.name}`);
+                    alert(`Chatting with: ${user.name}`);
+
+                    // Load chat history when a user is selected
+                    loadChatHistory('@Html.Raw(User.Identity.Name)', user.name);
+                });
+                userList.appendChild(li);
+            });
+        });
+
+        // Start SignalR connection
+        connection.start().then(function () {
+            console.log("Connected to SignalR hub.");
+        }).catch(function (err) {
+            console.error(err.toString());
+        });
+
+        // Send message
+        document.getElementById("sendButton").addEventListener("click", function () {
+            const receiverConnectionId = document.getElementById("receiverConnectionId").value;
+            const message = document.getElementById("messageInput").value;
+
+            if (!receiverConnectionId) {
+                alert("Please select a user to chat with.");
+                return;
+            }
+
+            connection.invoke("SendMessageToUser", receiverConnectionId, '@Html.Raw(User.Identity.Name)', message)
+                .catch(function (err) {
+                    console.error(err.toString());
+                });
+        });
+
+        // Load chat history
+        function loadChatHistory(sender, receiver) {
+            fetch(`/Account/GetChatHistory?sender=${sender}&receiver=${receiver}`)
+                .then(response => response.json())
+                .then(messages => {
+                    const messagesList = document.getElementById("messagesList");
+                    messagesList.innerHTML = ""; // Clear the existing chat
+                    messages.forEach(message => {
+                        const msg = `<b>${message.sender}:</b> ${message.message}`;
+                        const li = document.createElement("li");
+                        li.innerHTML = msg;
+                        messagesList.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error("Error loading chat history:", err);
+                });
+        }
+    </script>
+}

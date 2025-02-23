@@ -127,6 +127,21 @@
 
                         </li>
                     }
+                      @if (ViewBag.CurrentUrl=="~/Chat/Index")
+                    {
+                        <li>
+                            <a asp-action="Index"  class="nav-active" asp-controller="Chat">Chat</a>
+
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-action="Index"  asp-controller="Chat">Chat</a>
+
+                        </li>
+                    }
                     <li> 
                        <a href="~/persons/Index">Persons</a>
                     </li>
@@ -142,5 +157,6 @@
         </div>
     </div>
     @RenderSection("scripts",required:false);
+    @* @RenderSection("scripts1",required:false); *@
 </body>
 </html>

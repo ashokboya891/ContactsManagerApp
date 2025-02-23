@@ -9,6 +9,7 @@ using Serilog;
 using CRUDE.Filters.ActionFilters;
 using CRUDE.StartUpExtensions;
 using CRUDE.Middleware;
+using ContactsManager.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,8 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
 });
 
 builder.Services.ConfigureServices(builder.Configuration);  //we have added configure services into  iservicescollection type
-
+// Add SignalR
+builder.Services.AddSignalR();
 //Logging
 //builder.Host.ConfigureLogging(loggingprovider =>
 //{
@@ -80,6 +82,8 @@ app.UseEndpoints(end =>
     );
     //persons/edit
 });
+app.MapHub<ChatHub>("/chatHub");
+
 
 app.Run();
 
